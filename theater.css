@@ -1,0 +1,57 @@
+/*
+ * Better Theater Mode
+ * Everything is scoped to html.btm-on, which theater.js sets only while a
+ * watch page is in theater mode (and not in real fullscreen).
+ */
+
+/* --- Player fills the whole window ------------------------------------ */
+
+html.btm-on ytd-watch-flexy #full-bleed-container,
+html.btm-on ytd-watch-flexy #player-full-bleed-container {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  min-height: 100vh !important;
+  width: 100vw !important;
+  background: #000 !important;
+}
+
+html.btm-on ytd-watch-flexy #full-bleed-container #player-container,
+html.btm-on ytd-watch-flexy #full-bleed-container #movie_player,
+html.btm-on ytd-watch-flexy #full-bleed-container .html5-video-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Kill the ambient-mode glow so the edges stay pure black */
+html.btm-on #cinematics-container,
+html.btm-on #cinematics {
+  display: none !important;
+}
+
+/* --- Header slides away; peeks back on hover or once you scroll ------- */
+
+html.btm-on #page-manager {
+  margin-top: 0 !important;
+}
+
+html.btm-on #masthead-container {
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+}
+
+html.btm-on.btm-peek #masthead-container,
+html.btm-on.btm-scrolled #masthead-container {
+  transform: translateY(0);
+}
+
+/* --- No scrollbar over the video (page still scrolls) ----------------- */
+
+html.btm-on.btm-hide-scrollbar,
+html.btm-on.btm-hide-scrollbar body {
+  scrollbar-width: none !important;
+}
+
+html.btm-on.btm-hide-scrollbar::-webkit-scrollbar,
+html.btm-on.btm-hide-scrollbar body::-webkit-scrollbar {
+  display: none !important;
+}

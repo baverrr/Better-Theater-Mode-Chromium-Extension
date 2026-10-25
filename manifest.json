@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Better Theater Mode",
+  "version": "1.5.0",
+  "description": "Makes theater mode fill the whole browser window, edge to edge, on YouTube and any site with a theater mode button.",
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_title": "Better Theater Mode",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "css": [
+        "theater.css"
+      ],
+      "js": [
+        "theater.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "exclude_matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "generic.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/embed/*"
+      ],
+      "js": [
+        "generic.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ]
+}
