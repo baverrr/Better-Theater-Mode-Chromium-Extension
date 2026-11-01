@@ -1,0 +1,52 @@
+name: CI
+
+# The extension has no build step, so this checks what Chromium would reject when loading it
+# unpacked: JavaScript that doesn't parse, a manifest that isn't valid JSON or points at missing
+# files, and a version that isn't Chromium's dotted-number form.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: JavaScript parses
+        run: for f in *.js; do node --check "$f" && echo "ok $f"; done
+
+      - name: Manifest is valid and every file it names exists
+        shell: node {0}
+        run: |
+          const fs = require("fs");
+          const m = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
+          const fail = (msg) => { console.log(`::error file=manifest.json::${msg}`); process.exitCode = 1; };
+          if (m.manifest_version !== 3) fail("manifest_version must be 3");
+          if (!/^\d+(\.\d+){0,3}$/.test(m.version)) fail(`version "${m.version}" isn't 1-4 dot-separated numbers`);
+          const files = [
+            ...Object.values(m.icons || {}),
+            ...Object.values(m.action?.default_icon || {}),
+            m.action?.default_popup,
+            ...(m.content_scripts || []).flatMap((c) => [...(c.js || []), ...(c.css || [])]),
+          ].filter(Boolean);
+          for (const f of new Set(files)) {
+            if (fs.existsSync(f)) console.log(`ok ${f}`);
+            else fail(`${f} is listed but missing`);
+          }
+
+      - name: Files the popup loads exist
+        run: |
+          grep -oE '(src|href)="[^":]+"' popup.html | cut -d'"' -f2 | while read -r f; do
+            test -f "$f" || { echo "::error file=popup.html::$f is missing"; exit 1; }
+            echo "ok $f"
+          done
