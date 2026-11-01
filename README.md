@@ -4,6 +4,7 @@
 [![CodeQL](https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension/actions/workflows/codeql.yml/badge.svg)](https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension/actions/workflows/codeql.yml)
 ![Manifest V3](https://img.shields.io/badge/manifest-v3-4285f4?logo=googlechrome&logoColor=white)
 ![Permissions: storage only](https://img.shields.io/badge/permissions-storage%20only-2ea44f)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A Chromium extension (Chrome, Brave, Edge) that makes theater mode fill the
 whole browser window, edge to edge on a black background, with the site's
@@ -120,8 +121,13 @@ up to the page, which stretches that frame and tells it to fill itself.
   is valid Manifest V3, and every file it or the popup names exists.
 - `.github/workflows/codeql.yml` — CodeQL code scanning of the scripts and workflows, also weekly.
 - `PRIVACY.md` — the privacy policy.
+- `LICENSE` — MIT License.
 
 ## Privacy
 
 The extension collects nothing and makes no network requests; its settings are kept with
 `chrome.storage.sync`. See [PRIVACY.md](PRIVACY.md) for the full policy.
+
+## License
+
+[MIT](LICENSE), copyright 2026 baverrr.
