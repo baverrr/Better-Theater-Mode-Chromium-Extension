@@ -1,0 +1,83 @@
+{
+  "version": "2025.10",
+  "modifiers": {
+    "theme": {
+      "contexts": {
+        "light": [
+          {
+            "color": {
+              "$type": "color",
+              "canvas": {
+                "$value": "#0f0f0f"
+              },
+              "card": {
+                "$value": "#1f1f1f"
+              },
+              "badge": {
+                "$value": "#2a2a2a"
+              },
+              "border": {
+                "$value": "#3a3a3a"
+              },
+              "line": {
+                "$value": "#aaaaaa"
+              },
+              "text": {
+                "$value": "#f1f1f1"
+              },
+              "muted": {
+                "$value": "#aaaaaa"
+              },
+              "accent": {
+                "$value": "#3ea6ff"
+              },
+              "danger": {
+                "$value": "#ff4e45"
+              }
+            }
+          }
+        ],
+        "dark": [
+          {
+            "color": {
+              "$type": "color",
+              "canvas": {
+                "$value": "#0f0f0f"
+              },
+              "card": {
+                "$value": "#1f1f1f"
+              },
+              "badge": {
+                "$value": "#2a2a2a"
+              },
+              "border": {
+                "$value": "#3a3a3a"
+              },
+              "line": {
+                "$value": "#aaaaaa"
+              },
+              "text": {
+                "$value": "#f1f1f1"
+              },
+              "muted": {
+                "$value": "#aaaaaa"
+              },
+              "accent": {
+                "$value": "#3ea6ff"
+              },
+              "danger": {
+                "$value": "#ff4e45"
+              }
+            }
+          }
+        ]
+      },
+      "default": "dark"
+    }
+  },
+  "resolutionOrder": [
+    {
+      "$ref": "#/modifiers/theme"
+    }
+  ]
+}
