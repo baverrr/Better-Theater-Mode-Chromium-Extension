@@ -1,0 +1,75 @@
+archgram: 1
+title: Better Theater Mode
+description: >-
+  On YouTube, theater.js watches YouTube's player for its own theater
+  attribute and sets classes on the page that theater.css uses to make the
+  player fill the whole window. On every other site, generic.js reacts to
+  the T key, Esc or the site's theater button: it finds the biggest video,
+  and pins the player box to the window with inline styles. Inside an
+  embedded player frame, generic.js passes keys up to the page's copy and
+  is told to fill or unfill. The popup saves settings to
+  chrome.storage.sync, which both scripts read.
+direction: down
+frames:
+  - { id: yt, label: youtube.com }
+  - { id: other, label: Every other site }
+nodes:
+  - id: popup
+    kind: browser
+    label: Popup
+    note: popup.js
+    source: ../../popup.js
+  - id: storage
+    kind: database
+    label: chrome.storage.sync
+    note: your settings
+  - id: flexy
+    kind: browser
+    label: YouTube's player
+    note: ytd-watch-flexy [theater]
+    variant: external
+    frame: yt
+  - id: theater
+    kind: script
+    label: theater.js + .css
+    note: classes on <html>
+    frame: yt
+    source: [../../theater.js, ../../theater.css]
+  - id: you
+    kind: users
+    label: You
+    note: T · Esc · theater button
+    frame: other
+  - id: generic
+    kind: script
+    label: generic.js
+    note: the page's copy
+    frame: other
+    source: ../../generic.js
+  - id: frame
+    kind: script
+    label: generic.js in the player iframe
+    note: embedded players
+    variant: multi
+    frame: other
+    source: ../../generic.js
+  - id: player
+    kind: browser
+    label: Site's player box
+    note: video + its controls
+    variant: external
+    frame: other
+edges:
+  - { from: popup, to: storage, label: save, source: '../../popup.js#chrome.storage.sync.set({ [key]: box.checked })' }
+  - { from: storage, to: theater, label: settings, source: '../../theater.js#chrome.storage.sync.get(DEFAULTS, (stored) => {' }
+  - { from: storage, to: generic, label: settings, source: '../../generic.js#chrome.storage.sync.get(DEFAULTS, (stored) => {' }
+  - { from: flexy, to: theater, label: theater on/off, source: '../../theater.js#watchObserver = new MutationObserver(update);' }
+  - { from: theater, to: flexy, label: fill window, source: '../../theater.js#root.classList.toggle("btm-on", on);' }
+  - { from: you, to: generic, label: keydown, source: '../../generic.js#"keydown",' }
+  - { from: generic, to: player, label: pin to window, source: '../../generic.js#el.style.setProperty(property, value, "important");' }
+  - { from: frame, to: generic, label: toggle · exit, source: '../../generic.js#window.parent.postMessage({ [MESSAGE]: "toggle" }, "*");' }
+  - { from: generic, to: frame, label: fill · unfill, style: dashed, source: '../../generic.js#video.contentWindow?.postMessage({ [MESSAGE]: "fill" }, "*");' }
+flows:
+  - { name: YouTube theater button, steps: [flexy, theater, flexy] }
+  - { name: T on another site, steps: [you, generic, player] }
+  - { name: T inside an embedded player, steps: [frame, generic, [player, frame]] }

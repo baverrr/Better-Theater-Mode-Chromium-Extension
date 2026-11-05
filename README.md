@@ -63,28 +63,15 @@ extension's card and reload open tabs.
 
 ## How it works
 
-```mermaid
-flowchart TB
-    subgraph YT["youtube.com (theater.js + theater.css)"]
-        Flexy["ytd-watch-flexy<br/>[theater] attribute"] -- "MutationObserver" --> TJS["theater.js"]
-        TJS -- "html.btm-on / btm-peek /<br/>btm-scrolled classes" --> TCSS["theater.css<br/>player = whole window"]
-    end
+<p align="center">
+  <img src="docs/diagrams/architecture.svg" alt="How it works: the popup saves your settings to chrome.storage.sync, which theater.js and generic.js both read. On youtube.com, theater.js watches YouTube's player (ytd-watch-flexy) for its theater attribute and sets classes that theater.css uses to make the player fill the window. On every other site, generic.js reacts to T, Esc or the site's theater button and pins the site's player box to the window with inline styles. A copy of generic.js inside an embedded player frame posts toggle and exit up to the page, which tells it to fill or unfill." width="860">
+</p>
 
-    subgraph Other["every other site (generic.js, all frames)"]
-        Key["T key / Esc"] --> Find["find the biggest visible &lt;video&gt;<br/>or embedded player frame"]
-        Btn["site's theater button click"] --> Find
-        Find --> Player["player box = smallest element<br/>holding video + button"]
-        Player --> Inline["inline styles: player fixed, inset 0,<br/>100vw × 100vh; ancestors un-trapped"]
-    end
-
-    subgraph Frame["embedded player iframe (generic.js)"]
-        FKey["T / Esc inside the player"] -- "postMessage 'toggle' / 'exit'" --> Find
-    end
-    Inline -- "postMessage 'fill' / 'unfill'" --> Frame
-
-    Popup["popup.html / popup.js"] -- "chrome.storage.sync" --> TJS
-    Popup -- "chrome.storage.sync" --> Find
-```
+The player box is the smallest element holding both the video and its button; its ancestors are
+un-trapped so it can cover the window. The diagram is drawn with
+[archgram](https://github.com/byabas/archgram) from
+[`docs/diagrams/architecture.archgram.yaml`](docs/diagrams/architecture.archgram.yaml), in the popup's
+colours.
 
 **YouTube** already has a theater mode, so `theater.js` only watches YouTube's
 `ytd-watch-flexy` element for its `theater` attribute and toggles classes on
@@ -117,6 +104,8 @@ up to the page, which stretches that frame and tells it to fill itself.
 - `popup.html` / `popup.js` — the settings popup.
 - `icons/` — extension icons (16, 32, 48 and 128 px).
 - `docs/images/` — README screenshots.
+- `docs/diagrams/`, `archgram.theme.json` — the README's diagram: its archgram spec, the SVG
+  drawn from it, and its colours.
 - `.github/workflows/ci.yml` — on every push and pull request: every script parses, the manifest
   is valid Manifest V3, and every file it or the popup names exists.
 - `.github/workflows/codeql.yml` — CodeQL code scanning of the scripts and workflows, also weekly.
