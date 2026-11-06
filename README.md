@@ -1,45 +1,71 @@
 # Better Theater Mode
 
 [![CI](https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension/actions/workflows/ci.yml/badge.svg)](https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension/actions/workflows/codeql.yml/badge.svg)](https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension/actions/workflows/codeql.yml)
-![Manifest V3](https://img.shields.io/badge/manifest-v3-4285f4?logo=googlechrome&logoColor=white)
-![Permissions: storage only](https://img.shields.io/badge/permissions-storage%20only-2ea44f)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-A Chromium extension (Chrome, Brave, Edge) that makes theater mode fill the
-whole browser window, edge to edge on a black background, with the site's
-header and sidebars out of the way.
+A Chromium extension (Chrome, Brave, Edge) that makes theater mode fill the whole browser window. The video goes edge to edge on a black background, and the site's header and sidebars get out of the way.
 
-| A video page as the site lays it out | After pressing **T** |
-| --- | --- |
-| ![Demo video page with header, sidebar and comments](docs/images/demo-before.png) | ![The same page with the player filling the window](docs/images/demo-theater.png) |
+<p align="center">
+  <img src="docs/images/demo.gif" alt="A demo video page: pressing T makes the player fill the window, Esc brings the page back, and the site's Theater button does the same" width="860">
+</p>
 
-*The extension running in Brave on a local demo page (the "DemoTube" site and its video are
-made up for the screenshot). Press **T** again or **Esc** and the page goes back exactly as it was.*
+> [!TIP]
+> On any page with a video, press **T** to fill the window. Press **T** again or **Esc** to go back.
 
-## Why
-
-Most sites' theater mode only widens the player a little: the header, the
-padding and often a sidebar stay on screen, so the video still doesn't use the
-window. Full screen fixes that but takes over the whole display and hides your
-other windows and tabs. This extension sits in between: the video fills the
-browser window and nothing else changes.
+**[What it does](#what-it-does)** · **[What you need](#what-you-need)** · **[Install](#install)** · **[How to use it](#how-to-use-it)** · **[Help](#help)**
 
 ## What it does
 
-- **YouTube:** switch to theater mode (press **T** or the theater button) and
-  the player fills the window. The header slides away and comes back when you
-  move the mouse to the top edge or scroll down to the comments.
-- **Any other site:** press **T** on a page with a video, or click the site's
-  own theater button (Twitch, Rumble, PeerTube…), and the player fills the
-  window. Press **T** again or **Esc** to go back.
-- **Embedded videos:** YouTube, Vimeo, PBS and other players embedded in a
-  page work too, including when you've clicked into the player.
+Most sites' theater mode only widens the player a little. Full screen hides your other windows and tabs. This sits in between: the video fills the browser window and nothing else changes.
 
-The extension's popup has switches to turn it off, always open YouTube videos
-in theater mode, hide the scrollbar, and turn off the non-YouTube part.
+- **YouTube.** Switch to theater mode and the player fills the window. The header slides away and comes back when you move the mouse to the top edge or scroll down to the comments.
+- **Other sites.** Press **T**, or click the site's own theater button (Twitch, Rumble, PeerTube and others), and the player fills the window.
+- **Embedded videos.** YouTube, Vimeo, PBS and other players embedded in a page work too, even after you click into the player.
+- **Puts the page back.** Leaving theater mode restores the page exactly as it was.
+- **Asks for almost nothing.** The only permission is `storage`. It makes no network requests.
 
-<img src="docs/images/popup.png" alt="The extension's settings popup" width="272">
+<table>
+  <tr>
+    <td><img src="docs/images/demo-before.png" alt="Demo video page with header, sidebar and comments"></td>
+    <td><img src="docs/images/demo-theater.png" alt="The same page with the player filling the window"></td>
+    <td><img src="docs/images/popup.png" alt="The extension's settings popup" width="272"></td>
+  </tr>
+  <tr>
+    <td align="center">A video page as the site lays it out</td>
+    <td align="center">After pressing T</td>
+    <td align="center">The settings popup</td>
+  </tr>
+</table>
+
+The screenshots and GIF use a made-up local demo page ("DemoTube").
+
+## What you need
+
+- A Chromium-based browser: Chrome, Brave or Edge
+
+## Install
+
+1. Download the project:
+
+   ```bash
+   git clone https://github.com/baverrr/Better-Theater-Mode-Chromium-Extension.git
+   ```
+
+2. Open `chrome://extensions` (or `brave://extensions`, `edge://extensions`) and turn on **Developer mode**.
+
+3. Click **Load unpacked** and choose the `Better-Theater-Mode-Chromium-Extension` folder.
+
+There is no build step.
+
+## How to use it
+
+1. **YouTube.** Press **T** or the theater button on a video. Move the mouse to the top edge to see the header.
+2. **Other sites.** Press **T** on a page with a video, or click the site's theater button.
+3. **Go back.** Press **T** again or **Esc**.
+4. **Change settings.** Click the extension's icon to open its popup.
+
+<details>
+<summary><b>Settings</b></summary>
 
 | Setting | Default | What it does |
 | --- | --- | --- |
@@ -48,75 +74,28 @@ in theater mode, hide the scrollbar, and turn off the non-YouTube part.
 | Hide scrollbar | on | Hides the page scrollbar while a YouTube video fills the window |
 | Other sites (Twitch, Kick, …) | on | The **T** key and theater-button handling on sites other than YouTube |
 
-Settings are stored with `chrome.storage.sync`, so they follow your browser
-profile, and they apply to open tabs right away. The only permission the
-extension asks for is `storage`; it makes no network requests.
+Settings are saved with `chrome.storage.sync`, so they follow your browser profile. They apply to open tabs right away.
+</details>
 
-## Install
+## Help
 
-1. Open `chrome://extensions` (or `brave://extensions`, `edge://extensions`).
-2. Turn on **Developer mode**.
-3. Click **Load unpacked** and choose this folder.
+**Nothing happens on a page that was already open.** Reload the tab after installing or updating the extension.
 
-There is no build step. After pulling changes, press the reload button on the
-extension's card and reload open tabs.
+**I pulled new changes and nothing changed.** Press the reload button on the extension's card in `chrome://extensions`, then reload open tabs.
 
-## How it works
+**T does nothing on a site.** Check that **Enabled** and **Other sites** are on in the popup.
 
-<p align="center">
-  <img src="docs/diagrams/architecture.svg" alt="How it works: the popup saves your settings to chrome.storage.sync, which theater.js and generic.js both read. On youtube.com, theater.js watches YouTube's player (ytd-watch-flexy) for its theater attribute and sets classes that theater.css uses to make the player fill the window. On every other site, generic.js reacts to T, Esc or the site's theater button and pins the site's player box to the window with inline styles. A copy of generic.js inside an embedded player frame posts toggle and exit up to the page, which tells it to fill or unfill." width="860">
-</p>
+<details>
+<summary><b>For developers</b></summary>
 
-The player box is the smallest element holding both the video and its button; its ancestors are
-un-trapped so it can cover the window. The diagram is drawn with
-[archgram](https://github.com/byabas/archgram) from
-[`docs/diagrams/architecture.archgram.yaml`](docs/diagrams/architecture.archgram.yaml), in the popup's
-colours.
-
-**YouTube** already has a theater mode, so `theater.js` only watches YouTube's
-`ytd-watch-flexy` element for its `theater` attribute and toggles classes on
-`<html>`. `theater.css` hangs everything off those classes: the player takes
-the whole window, the masthead slides out of the way and peeks back in when the
-mouse touches the top edge (`btm-peek`) or the comments are scrolled into view
-(`btm-scrolled`).
-
-**Other sites** have no common markup, so `generic.js` works from the video
-itself. On **T**, or on a click on anything labelled theater/theatre/cinema, it
-picks the biggest visible `<video>` or embedded player frame (skipping 1×1
-tracking videos and ones parked off-screen), finds the player box around it,
-and sets inline styles that pin it over the page. Inline styles reach players
-built as web components (shadow DOM), and each element's original `style`
-attribute is saved so leaving restores it exactly. A `MutationObserver` puts
-the styles back if the player rewrites its own size. When the site's own
-button says "Exit theater mode" afterwards, the extension follows the site's
-state instead of toggling on its own.
-
-**Embedded players** can't resize their own frame, so `generic.js` also runs
-inside frames: a **T** pressed in an embedded YouTube or Vimeo player is posted
-up to the page, which stretches that frame and tells it to fill itself.
-
-## Files
-
-- `manifest.json` — Manifest V3; which script runs where (YouTube, every other
-  page, and embedded frames).
-- `theater.js` / `theater.css` — YouTube's own theater mode, restyled.
-- `generic.js` — every other site and embedded players.
-- `popup.html` / `popup.js` — the settings popup.
-- `icons/` — extension icons (16, 32, 48 and 128 px).
-- `docs/images/` — README screenshots.
-- `docs/diagrams/`, `archgram.theme.json` — the README's diagram: its archgram spec, the SVG
-  drawn from it, and its colours.
-- `.github/workflows/ci.yml` — on every push and pull request: every script parses, the manifest
-  is valid Manifest V3, and every file it or the popup names exists.
-- `.github/workflows/codeql.yml` — CodeQL code scanning of the scripts and workflows, also weekly.
-- `PRIVACY.md` — the privacy policy.
-- `LICENSE` — MIT License.
-
-## Privacy
-
-The extension collects nothing and makes no network requests; its settings are kept with
-`chrome.storage.sync`. See [PRIVACY.md](PRIVACY.md) for the full policy.
+- `manifest.json`: Manifest V3, and which script runs where (YouTube, every other page, embedded frames)
+- `theater.js` / `theater.css`: YouTube's own theater mode, restyled. It watches YouTube's `ytd-watch-flexy` element for its `theater` attribute.
+- `generic.js`: every other site and embedded players. It finds the biggest visible video, pins its player box to the window with inline styles, and saves the original styles so it can put them back.
+- `popup.html` / `popup.js`: the settings popup
+- How it fits together: [architecture diagram](docs/diagrams/architecture.svg), drawn with [archgram](https://github.com/byabas/archgram) from [`architecture.archgram.yaml`](docs/diagrams/architecture.archgram.yaml)
+- Checks: CI makes sure every script parses, the manifest is valid Manifest V3, and every file it names exists. CodeQL scans the code weekly.
+</details>
 
 ## License
 
-[MIT](LICENSE), copyright 2026 baverrr.
+MIT. See [LICENSE](LICENSE), plus the [Privacy](PRIVACY.md) page. The extension collects nothing.
